@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/page-transition';
 import { JOB_POSTINGS, STATUS_LABELS, type JobStatus } from '../mockData';
 import { Icon3D } from '../shared/Icon3D';
+import { useNav } from '../shared/navContext';
 
 type ViewMode = 'grid' | 'list';
 type Filter = 'all' | JobStatus;
@@ -25,6 +26,7 @@ export default function JobPostingList() {
   const [view, setView] = useState<ViewMode>('grid');
   const [filter, setFilter] = useState<Filter>('all');
   const [search, setSearch] = useState('');
+  const { showToast, navigateTo } = useNav();
 
   const filtered = useMemo(() => {
     return JOB_POSTINGS.filter(j => {
@@ -56,8 +58,12 @@ export default function JobPostingList() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm"><Archive size={14} /> 아카이브</Button>
-            <Button size="sm"><Plus size={14} /> 새 공고 생성</Button>
+            <Button variant="outline" size="sm" onClick={() => showToast('아카이브된 공고를 표시했어요')}>
+              <Archive size={14} /> 아카이브
+            </Button>
+            <Button size="sm" onClick={() => navigateTo('before', 'jd')}>
+              <Plus size={14} /> 새 공고 생성
+            </Button>
           </div>
         </div>
       </FadeIn>
@@ -102,7 +108,9 @@ export default function JobPostingList() {
                 className="h-8 pl-7 pr-3 text-xs rounded-md border border-[var(--border)] bg-[var(--card)] w-[200px] focus:outline-none focus:border-[var(--primary)]"
               />
             </div>
-            <Button variant="outline" size="xs"><Filter size={11} /> 필터</Button>
+            <Button variant="outline" size="xs" onClick={() => showToast('상세 필터 패널을 열었어요')}>
+              <Filter size={11} /> 필터
+            </Button>
             <div className="inline-flex items-center gap-0.5 p-0.5 rounded-md bg-[var(--gray-3)]">
               {[
                 { k: 'grid' as const, icon: LayoutGrid },
@@ -175,23 +183,28 @@ export default function JobPostingList() {
                     </div>
 
                     <div className="flex items-center gap-1 pt-2 border-t border-[var(--border)]">
-                      <Button variant="outline" size="xs" className="flex-1">
+                      <Button
+                        variant="outline"
+                        size="xs"
+                        className="flex-1"
+                        onClick={() => showToast(`${j.title} 상세 보기`)}
+                      >
                         <Eye size={10} /> 보기
                       </Button>
                       {j.status === 'open' ? (
-                        <Button variant="outline" size="xs">
+                        <Button variant="outline" size="xs" onClick={() => showToast(`${j.title} 일시 중지`)}>
                           <Pause size={10} />
                         </Button>
                       ) : j.status === 'draft' ? (
-                        <Button variant="outline" size="xs">
+                        <Button variant="outline" size="xs" onClick={() => showToast(`${j.title} 공개 시작`)}>
                           <Play size={10} />
                         </Button>
                       ) : (
-                        <Button variant="outline" size="xs">
+                        <Button variant="outline" size="xs" onClick={() => showToast(`${j.title} 새 창에서 열기`)}>
                           <ExternalLink size={10} />
                         </Button>
                       )}
-                      <Button variant="outline" size="xs">
+                      <Button variant="outline" size="xs" onClick={() => showToast(`${j.title} 복사 완료`)}>
                         <Copy size={10} />
                       </Button>
                     </div>

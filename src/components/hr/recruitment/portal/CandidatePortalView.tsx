@@ -8,6 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { FadeIn } from '@/components/ui/page-transition';
+import { useNav } from '../shared/navContext';
 
 // 지원자가 실제 보는 채용 포털 미리보기
 const FEATURED = {
@@ -50,6 +51,7 @@ const EMPLOYEE_VOICES = [
 
 export default function CandidatePortalView() {
   const [device, setDevice] = useState<'pc' | 'mobile'>('pc');
+  const { showToast } = useNav();
 
   return (
     <div className="flex flex-col gap-4">
@@ -87,8 +89,16 @@ export default function CandidatePortalView() {
                 );
               })}
             </div>
-            <Button variant="outline" size="sm"><Share2 size={14} /> 공유 링크</Button>
-            <Button size="sm">실제 URL에서 보기 ↗</Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => showToast('공유 링크를 복사했어요')}
+            >
+              <Share2 size={14} /> 공유 링크
+            </Button>
+            <Button size="sm" onClick={() => showToast('실제 채용 사이트를 새 창에서 열었어요')}>
+              실제 URL에서 보기 ↗
+            </Button>
           </div>
         </div>
       </FadeIn>
@@ -129,7 +139,9 @@ export default function CandidatePortalView() {
                   <button className="w-7 h-7 rounded hover:bg-[var(--gray-3)] flex items-center justify-center text-[var(--foreground-muted)]">
                     <Search size={12} />
                   </button>
-                  <Button variant="outline" size="xs">로그인</Button>
+                  <Button variant="outline" size="xs" onClick={() => showToast('로그인 페이지로 이동')}>
+                    로그인
+                  </Button>
                 </div>
               </div>
 

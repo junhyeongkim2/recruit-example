@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/page-transition';
+import { useNav } from '../shared/navContext';
 
 // DEI (Diversity, Equity, Inclusion) 대시보드
 const DIVERSITY_KPI = [
@@ -54,6 +55,7 @@ const TEAM_DIVERSITY = [
 ];
 
 export default function DEIDashboard() {
+  const { showToast } = useNav();
   return (
     <div className="flex flex-col gap-4">
       <FadeIn>
@@ -70,8 +72,12 @@ export default function DEIDashboard() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm"><Download size={14} /> DEI 리포트</Button>
-            <Button size="sm"><Target size={14} /> 목표 설정</Button>
+            <Button variant="outline" size="sm" onClick={() => showToast('DEI 리포트를 다운로드하고 있어요')}>
+              <Download size={14} /> DEI 리포트
+            </Button>
+            <Button size="sm" onClick={() => showToast('DEI 목표 설정 화면을 열었어요')}>
+              <Target size={14} /> 목표 설정
+            </Button>
           </div>
         </div>
       </FadeIn>

@@ -8,6 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/page-transition';
+import { useNav } from '../shared/navContext';
 
 interface Interviewer {
   id: string;
@@ -92,6 +93,7 @@ const CAL_STYLE = {
 export default function InterviewerPool() {
   const [selected, setSelected] = useState<Interviewer>(INTERVIEWERS[0]);
   const [filter, setFilter] = useState<'all' | 'available' | 'cert'>('all');
+  const { showToast } = useNav();
 
   const filtered = INTERVIEWERS.filter(i => {
     if (filter === 'available') return i.availability === 'available';
@@ -118,8 +120,16 @@ export default function InterviewerPool() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm"><Mail size={14} /> 교육 일괄 안내</Button>
-            <Button size="sm"><Plus size={14} /> 면접관 등록</Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => showToast('전체 면접관에게 교육 안내를 발송했어요')}
+            >
+              <Mail size={14} /> 교육 일괄 안내
+            </Button>
+            <Button size="sm" onClick={() => showToast('면접관 등록 폼을 열었어요')}>
+              <Plus size={14} /> 면접관 등록
+            </Button>
           </div>
         </div>
       </FadeIn>
@@ -195,7 +205,9 @@ export default function InterviewerPool() {
                 className="h-8 pl-7 pr-3 text-xs rounded-md border border-[var(--border)] bg-[var(--card)] w-[180px]"
               />
             </div>
-            <Button variant="outline" size="xs"><Filter size={11} /> 필터</Button>
+            <Button variant="outline" size="xs" onClick={() => showToast('상세 필터 패널을 열었어요')}>
+              <Filter size={11} /> 필터
+            </Button>
           </div>
         </div>
       </FadeIn>
@@ -355,8 +367,21 @@ export default function InterviewerPool() {
                 </div>
               </CardContent>
               <div className="px-6 py-3 border-t border-[var(--border)] flex items-center gap-2">
-                <Button variant="outline" size="sm" className="flex-1"><MessageSquare size={12} /> 메시지</Button>
-                <Button size="sm" className="flex-1"><Award size={12} /> 면접 배정</Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex-1"
+                  onClick={() => showToast(`${selected.name}에게 메시지 작성`)}
+                >
+                  <MessageSquare size={12} /> 메시지
+                </Button>
+                <Button
+                  size="sm"
+                  className="flex-1"
+                  onClick={() => showToast(`${selected.name}을(를) 면접 배정 큐에 추가`)}
+                >
+                  <Award size={12} /> 면접 배정
+                </Button>
               </div>
             </Card>
           </motion.div>

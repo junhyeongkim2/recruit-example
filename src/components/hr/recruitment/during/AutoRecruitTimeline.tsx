@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/page-transition';
+import { useNav } from '../shared/navContext';
 
 // h.place 1_128 — 지원서 접수 자동 운영 (4열 타임라인)
 interface TimelineEvent {
@@ -114,6 +115,7 @@ const EVENT_ICON = {
 };
 
 export default function AutoRecruitTimeline() {
+  const { showToast } = useNav();
   return (
     <div className="flex flex-col gap-4">
       <FadeIn>
@@ -129,7 +131,9 @@ export default function AutoRecruitTimeline() {
             <span>일정</span>
             <span>·</span>
             <span>문의</span>
-            <Button variant="outline" size="xs">자동운영 설정</Button>
+            <Button variant="outline" size="xs" onClick={() => showToast('자동운영 설정 패널을 열었어요')}>
+              자동운영 설정
+            </Button>
           </div>
         </div>
       </FadeIn>
@@ -167,7 +171,12 @@ export default function AutoRecruitTimeline() {
                     ))}
                   </div>
                   <div className="mt-2">
-                    <Button variant="outline" size="xs" className="w-full">
+                    <Button
+                      variant="outline"
+                      size="xs"
+                      className="w-full"
+                      onClick={() => showToast(`${col.title} 전형 상세 화면 열기`)}
+                    >
                       전형 상세 <ExternalLink size={10} />
                     </Button>
                   </div>
@@ -214,7 +223,10 @@ export default function AutoRecruitTimeline() {
                         </motion.div>
                       );
                     })}
-                    <button className="flex items-center gap-1.5 pl-8 mt-1 text-[10px] text-[var(--foreground-muted)] hover:text-[var(--foreground)]">
+                    <button
+                      onClick={() => showToast(`${col.title}에 새 이벤트를 추가`)}
+                      className="flex items-center gap-1.5 pl-8 mt-1 text-[10px] text-[var(--foreground-muted)] hover:text-[var(--foreground)]"
+                    >
                       <Plus size={10} /> 이벤트 추가
                     </button>
                   </div>

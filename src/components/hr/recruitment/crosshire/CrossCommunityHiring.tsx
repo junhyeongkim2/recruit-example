@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/page-transition';
+import { useNav } from '../shared/navContext';
 
 // 공동체 간 크로스 채용 (카카오·카카오페이·카카오뱅크·카카오엔터 등)
 const COMMUNITIES = [
@@ -35,6 +36,7 @@ const OPEN_CROSS_JOBS = [
 
 export default function CrossCommunityHiring() {
   const totalFlows = CROSS_FLOWS.reduce((s, f) => s + f.count, 0);
+  const { showToast } = useNav();
 
   return (
     <div className="flex flex-col gap-4">
@@ -52,8 +54,12 @@ export default function CrossCommunityHiring() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm"><Users size={14} /> 내 프로필 동기화</Button>
-            <Button size="sm"><Sparkles size={14} /> AI 매칭 보기</Button>
+            <Button variant="outline" size="sm" onClick={() => showToast('내 프로필을 공동체에 동기화했어요')}>
+              <Users size={14} /> 내 프로필 동기화
+            </Button>
+            <Button size="sm" onClick={() => showToast('AI 매칭 결과를 불러오는 중')}>
+              <Sparkles size={14} /> AI 매칭 보기
+            </Button>
           </div>
         </div>
       </FadeIn>

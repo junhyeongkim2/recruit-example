@@ -60,7 +60,7 @@ const KPI = [
 ];
 
 export default function AfterRecruitment() {
-  const { subViews, setSubView } = useNav();
+  const { subViews, setSubView, showToast } = useNav();
   const view = subViews.after as View;
   const setView = (v: View) => setSubView('after', v);
 
@@ -94,8 +94,20 @@ export default function AfterRecruitment() {
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Button variant="outline" size="sm"><Share2 size={14} /> 공유</Button>
-                    <Button variant="outline" size="sm"><Download size={14} /> PDF</Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => showToast('리포트 공유 링크를 복사했어요')}
+                    >
+                      <Share2 size={14} /> 공유
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => showToast('PDF로 다운로드를 시작했어요')}
+                    >
+                      <Download size={14} /> PDF
+                    </Button>
                     <Button size="sm" onClick={() => setView('editor')}><LayoutGrid size={14} /> 편집</Button>
                   </div>
                 </div>

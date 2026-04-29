@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { FadeIn } from '@/components/ui/page-transition';
 import { CANDIDATES, STAGE_LABELS, JOB_POSTINGS, type CandidateStage } from '../mockData';
 import { useCandidateModal } from '../shared/useCandidateDetail';
+import { useNav } from '../shared/navContext';
 
 const STAGES: CandidateStage[] = ['applied', 'screening', 'interview1', 'interview2', 'offer', 'hired'];
 
@@ -23,6 +24,7 @@ function ScoreLabel({ score }: { score: number }) {
 export default function CandidateKanban() {
   const [selectedJob, setSelectedJob] = useState<string>('all');
   const { setCandidate } = useCandidateModal();
+  const { showToast } = useNav();
 
   const filtered = useMemo(() => {
     if (selectedJob === 'all') return CANDIDATES;
@@ -79,7 +81,10 @@ export default function CandidateKanban() {
                 className="h-8 pl-7 pr-3 text-xs rounded-md border border-[var(--border)] bg-[var(--card)] w-[180px] focus:outline-none focus:border-[var(--primary)]"
               />
             </div>
-            <button className="h-8 px-3 text-xs rounded-md border border-[var(--border)] bg-[var(--card)] hover:bg-[var(--gray-3)] flex items-center gap-1.5 text-[var(--foreground-muted)]">
+            <button
+              onClick={() => showToast('상세 필터 패널을 열었어요')}
+              className="h-8 px-3 text-xs rounded-md border border-[var(--border)] bg-[var(--card)] hover:bg-[var(--gray-3)] flex items-center gap-1.5 text-[var(--foreground-muted)]"
+            >
               <Filter size={12} /> 필터
             </button>
           </div>

@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/page-transition';
 import { useEscapeKey } from '../shared/useEscapeKey';
+import { useNav } from '../shared/navContext';
 
 interface Block {
   id: string;
@@ -58,6 +59,7 @@ export default function OfferLetterEditor() {
   const [blocks, setBlocks] = useState<Block[]>(INIT_BLOCKS);
   const [selectedTemplate, setSelectedTemplate] = useState('std');
   const [previewOpen, setPreviewOpen] = useState(false);
+  const { showToast } = useNav();
 
   useEscapeKey(previewOpen, () => setPreviewOpen(false));
 
@@ -80,8 +82,12 @@ export default function OfferLetterEditor() {
           </div>
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" onClick={() => setPreviewOpen(true)}><Eye size={14} /> 미리보기</Button>
-            <Button variant="outline" size="sm"><Save size={14} /> 임시 저장</Button>
-            <Button size="sm"><Send size={14} /> 서명 요청 발송</Button>
+            <Button variant="outline" size="sm" onClick={() => showToast('오퍼 레터를 임시 저장했어요')}>
+              <Save size={14} /> 임시 저장
+            </Button>
+            <Button size="sm" onClick={() => showToast('전자서명 요청을 발송했어요')}>
+              <Send size={14} /> 서명 요청 발송
+            </Button>
           </div>
         </div>
       </FadeIn>
@@ -172,7 +178,9 @@ export default function OfferLetterEditor() {
                 </button>
               ))}
               <div className="h-4 w-px bg-[var(--border)] mx-1" />
-              <Button variant="ghost" size="xs"><Sparkles size={10} /> AI 다시쓰기</Button>
+              <Button variant="ghost" size="xs" onClick={() => showToast('AI가 본문을 다시 작성했어요')}>
+                <Sparkles size={10} /> AI 다시쓰기
+              </Button>
             </div>
 
             {/* 블록 리스트 */}
@@ -341,7 +349,9 @@ export default function OfferLetterEditor() {
                   <span className="text-sm font-semibold">오퍼 레터 미리보기</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Button variant="outline" size="xs"><Download size={11} /> PDF</Button>
+                  <Button variant="outline" size="xs" onClick={() => showToast('PDF로 다운로드를 시작했어요')}>
+                    <Download size={11} /> PDF
+                  </Button>
                   <button onClick={() => setPreviewOpen(false)} className="w-7 h-7 rounded hover:bg-[var(--gray-3)] text-[var(--foreground-muted)]">✕</button>
                 </div>
               </div>

@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { FadeIn } from '@/components/ui/page-transition';
 import { Icon3D } from '../shared/Icon3D';
+import { useNav } from '../shared/navContext';
 
 const DAYS = ['일', '월', '화', '수', '목', '금', '토'];
 const DATES = [27, 28, 29, 30, 31, 1, 2];
@@ -27,6 +28,7 @@ const SCHEDULE_SLOTS = [
 ];
 
 export default function InterviewScheduler() {
+  const { showToast } = useNav();
   return (
     <div className="flex flex-col gap-4">
       <FadeIn>
@@ -42,10 +44,10 @@ export default function InterviewScheduler() {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Button size="sm" variant="outline">
+              <Button size="sm" variant="outline" onClick={() => showToast('AI가 일정을 재조율하고 있어요')}>
                 <Sparkles size={14} /> AI 재조율
               </Button>
-              <Button size="sm">모두 확정</Button>
+              <Button size="sm" onClick={() => showToast('모든 면접 일정을 확정했어요')}>모두 확정</Button>
             </div>
           </CardContent>
         </Card>
@@ -227,8 +229,8 @@ export default function InterviewScheduler() {
             </CardContent>
 
             <div className="px-6 pt-3 border-t border-[var(--border)] flex justify-end gap-2">
-              <Button variant="outline" size="sm">취소</Button>
-              <Button size="sm">다음</Button>
+              <Button variant="outline" size="sm" onClick={() => showToast('일정 입력을 취소했어요')}>취소</Button>
+              <Button size="sm" onClick={() => showToast('다음 단계로 이동')}>다음</Button>
             </div>
           </Card>
         </FadeIn>

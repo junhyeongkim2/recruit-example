@@ -8,6 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/page-transition';
+import { useNav } from '../shared/navContext';
 
 const SIDE_NAV = [
   { key: 'design', icon: Palette, label: '디자인', active: true },
@@ -30,6 +31,7 @@ const CONVERSATION = [
 export default function CareerSiteBuilder() {
   const [input, setInput] = useState('');
   const [selectedTemplate, setSelectedTemplate] = useState<number | null>(null);
+  const { showToast } = useNav();
 
   return (
     <div className="flex flex-col gap-4">
@@ -47,7 +49,9 @@ export default function CareerSiteBuilder() {
                 </p>
               </div>
             </div>
-            <Button size="sm"><Sparkles size={14} /> 새 사이트 시작</Button>
+            <Button size="sm" onClick={() => showToast('AI가 새 채용 사이트 생성을 시작했어요')}>
+              <Sparkles size={14} /> 새 사이트 시작
+            </Button>
           </CardContent>
         </Card>
       </FadeIn>
@@ -179,8 +183,12 @@ export default function CareerSiteBuilder() {
               </StaggerContainer>
 
               <div className="flex items-center justify-between">
-                <Button variant="outline" size="sm">더 정확한 디자인 추천받기 →</Button>
-                <Button variant="ghost" size="sm">다른 디자인 추천 받기</Button>
+                <Button variant="outline" size="sm" onClick={() => showToast('AI에 추가 정보를 요청합니다')}>
+                  더 정확한 디자인 추천받기 →
+                </Button>
+                <Button variant="ghost" size="sm" onClick={() => showToast('새로운 템플릿 추천을 받았어요')}>
+                  다른 디자인 추천 받기
+                </Button>
               </div>
 
               {/* AI 입력 */}
@@ -212,7 +220,16 @@ export default function CareerSiteBuilder() {
                     placeholder="업종, 브랜드 컬러, 회사 분위기 등을 입력해주세요..."
                     className="flex-1 h-9 px-3 text-xs rounded-md border border-[var(--border)] bg-[var(--card)] focus:outline-none focus:border-[var(--primary)]"
                   />
-                  <Button size="icon-sm"><Send size={13} /></Button>
+                  <Button
+                    size="icon-sm"
+                    onClick={() => {
+                      if (!input.trim()) return;
+                      showToast('AI가 입력 내용을 반영하고 있어요');
+                      setInput('');
+                    }}
+                  >
+                    <Send size={13} />
+                  </Button>
                 </div>
               </div>
             </CardContent>

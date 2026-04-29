@@ -54,7 +54,7 @@ function ToastOverlay() {
 function RecruitmentPageInner() {
   const [chatOpen, setChatOpen] = useState(false);
   const { candidate, setCandidate } = useCandidateDetail();
-  const { mainTab, setMainTab, scrollRootRef } = useNav();
+  const { mainTab, setMainTab, scrollRootRef, navigateTo, showToast } = useNav();
 
   // 글로벌 키보드 단축키
   useKeyboardShortcuts([
@@ -94,7 +94,16 @@ function RecruitmentPageInner() {
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Button size="sm" variant="outline"><Plus size={14} /> 새 공고</Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => {
+                        navigateTo('before', 'jd');
+                        showToast('새 공고 작성 화면으로 이동');
+                      }}
+                    >
+                      <Plus size={14} /> 새 공고
+                    </Button>
                     <AIChatToggle onClick={() => setChatOpen(!chatOpen)} />
                     <NotificationDropdown />
                   </div>

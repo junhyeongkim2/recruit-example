@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/page-transition';
 import { Lightbulb, ChevronLeft } from 'lucide-react';
+import { useNav } from '../shared/navContext';
 
 type TabKey = 'intro' | 'basic' | 'experience' | 'situation' | 'language';
 
@@ -55,6 +56,7 @@ export default function VideoQuestionCurator() {
   const [scriptOpen, setScriptOpen] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [learnSideOpen, setLearnSideOpen] = useState(true);
+  const { showToast } = useNav();
 
   return (
     <div className="flex flex-col gap-4">
@@ -73,8 +75,12 @@ export default function VideoQuestionCurator() {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm"><Settings size={14} /> 평가 설정</Button>
-              <Button size="sm"><Sparkles size={14} /> AI 질문 재생성</Button>
+              <Button variant="outline" size="sm" onClick={() => showToast('평가 설정 패널을 열었어요')}>
+                <Settings size={14} /> 평가 설정
+              </Button>
+              <Button size="sm" onClick={() => showToast('AI가 새로운 질문을 생성하고 있어요')}>
+                <Sparkles size={14} /> AI 질문 재생성
+              </Button>
             </div>
           </CardContent>
         </Card>
@@ -308,7 +314,9 @@ export default function VideoQuestionCurator() {
                     {c}
                   </button>
                 ))}
-                <Button variant="outline" size="xs"><Plus size={10} /> 추가</Button>
+                <Button variant="outline" size="xs" onClick={() => showToast('새 질문을 추가했어요')}>
+                  <Plus size={10} /> 추가
+                </Button>
               </div>
 
               {/* 질문 리스트 */}

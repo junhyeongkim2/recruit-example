@@ -8,6 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/page-transition';
+import { useNav } from '../shared/navContext';
 
 type Tab = 'template' | 'edit' | 'legal' | 'preview';
 
@@ -46,6 +47,7 @@ export default function JobPostingEditor() {
   const [messages, setMessages] = useState<{ role: 'user' | 'ai'; text: string }[]>([
     { role: 'ai', text: '수정을 원하는 디자인을 선택해 주세요.' },
   ]);
+  const { showToast } = useNav();
 
   const sendSuggestion = (s: string) => {
     setMessages([...messages, { role: 'user', text: s }, { role: 'ai', text: `${s}로 반영했습니다. 좌측 미리보기를 확인해주세요.` }]);
@@ -81,8 +83,12 @@ export default function JobPostingEditor() {
             ))}
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm"><Eye size={14} /> 미리보기</Button>
-            <Button size="sm"><Sparkles size={14} /> AI 재생성</Button>
+            <Button variant="outline" size="sm" onClick={() => setTab('preview')}>
+              <Eye size={14} /> 미리보기
+            </Button>
+            <Button size="sm" onClick={() => showToast('AI가 공고문을 다시 생성하고 있어요')}>
+              <Sparkles size={14} /> AI 재생성
+            </Button>
           </div>
         </div>
       </FadeIn>
@@ -192,7 +198,16 @@ export default function JobPostingEditor() {
                       placeholder="원하는 수정 내용을 입력해주세요"
                       className="flex-1 h-9 px-3 text-xs rounded-md border border-[var(--border)] bg-[var(--card)] focus:outline-none focus:border-[var(--primary)]"
                     />
-                    <Button size="icon-sm"><Send size={13} /></Button>
+                    <Button
+                      size="icon-sm"
+                      onClick={() => {
+                        if (!chatInput.trim()) return;
+                        sendSuggestion(chatInput);
+                        setChatInput('');
+                      }}
+                    >
+                      <Send size={13} />
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
@@ -262,7 +277,12 @@ export default function JobPostingEditor() {
                     ))}
                   </StaggerContainer>
 
-                  <Button variant="outline" size="sm" className="w-full mt-1">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full mt-1"
+                    onClick={() => showToast('법률 검토 체크리스트를 다운로드했어요')}
+                  >
                     체크리스트 다운로드
                   </Button>
                 </CardContent>

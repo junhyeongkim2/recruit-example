@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/page-transition';
+import { useNav } from '../shared/navContext';
 
 // h.place 실물: 5단계 파이프라인, 각 단계마다 차수별 전형 카드
 const PIPELINE = [
@@ -88,6 +89,7 @@ const PIPELINE = [
 ];
 
 export default function OpenRecruitDashboard() {
+  const { showToast, navigateTo } = useNav();
   return (
     <div className="flex flex-col gap-4">
       <FadeIn>
@@ -98,9 +100,15 @@ export default function OpenRecruitDashboard() {
             <Badge variant="outline" className="text-[10px]">2026년 상반기</Badge>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm"><Clock3 size={13} /> 최근 업데이트</Button>
-            <Button variant="outline" size="sm"><TrendingUp size={13} /> 지표 보기</Button>
-            <Button size="sm">리포트 생성 <ExternalLink size={13} /></Button>
+            <Button variant="outline" size="sm" onClick={() => showToast('최근 업데이트 패널을 열었어요')}>
+              <Clock3 size={13} /> 최근 업데이트
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => navigateTo('after', 'overview')}>
+              <TrendingUp size={13} /> 지표 보기
+            </Button>
+            <Button size="sm" onClick={() => showToast('리포트 생성을 시작했어요')}>
+              리포트 생성 <ExternalLink size={13} />
+            </Button>
           </div>
         </div>
       </FadeIn>

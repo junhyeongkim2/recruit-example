@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/page-transition';
 import { Icon3D } from '../shared/Icon3D';
+import { useNav } from '../shared/navContext';
 
 const OFFERS = [
   { id: 'O-1', name: '이도윤', position: '백엔드 (시니어)', base: 11200, bonus: 1500, sign: 3000, level: 'L5', status: 'accepted', sentAt: '2026-04-12', respondedAt: '2026-04-15' },
@@ -36,6 +37,7 @@ export default function OfferManagement() {
   const [selectedId, setSelectedId] = useState<string>('O-1');
   const selected = OFFERS.find(o => o.id === selectedId) || OFFERS[0];
   const total = selected.base + selected.bonus + selected.sign;
+  const { showToast, navigateTo } = useNav();
 
   const acceptedCount = OFFERS.filter(o => o.status === 'accepted').length;
   const pendingCount = OFFERS.filter(o => o.status === 'pending' || o.status === 'negotiating').length;
@@ -56,8 +58,12 @@ export default function OfferManagement() {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm"><Sparkles size={14} /> AI 처우 추천</Button>
-              <Button size="sm"><Send size={14} /> 새 오퍼 발송</Button>
+              <Button variant="outline" size="sm" onClick={() => showToast('AI가 추천 처우안을 산출했어요')}>
+                <Sparkles size={14} /> AI 처우 추천
+              </Button>
+              <Button size="sm" onClick={() => navigateTo('offer', 'letter')}>
+                <Send size={14} /> 새 오퍼 발송
+              </Button>
             </div>
           </CardContent>
         </Card>
@@ -252,8 +258,18 @@ export default function OfferManagement() {
                   )}
                 </CardContent>
                 <div className="px-6 py-3 border-t border-[var(--border)] flex items-center justify-end gap-2">
-                  <Button variant="outline" size="sm"><FileText size={13} /> 오퍼 문서</Button>
-                  <Button size="sm" disabled={selected.status === 'accepted' || selected.status === 'declined'}>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => navigateTo('offer', 'letter')}
+                  >
+                    <FileText size={13} /> 오퍼 문서
+                  </Button>
+                  <Button
+                    size="sm"
+                    disabled={selected.status === 'accepted' || selected.status === 'declined'}
+                    onClick={() => showToast(`${selected.name}님께 오퍼를 재발송했어요`)}
+                  >
                     <Send size={13} /> 재발송
                   </Button>
                 </div>

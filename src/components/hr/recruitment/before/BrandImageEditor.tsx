@@ -7,6 +7,7 @@ import {
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useNav } from '../shared/navContext';
 
 // h.place 1_84 — 브랜드 이미지 편집 (지원서/사이트 공통)
 const BRAND_COLORS = [
@@ -29,6 +30,7 @@ export default function BrandImageEditor() {
   const [device, setDevice] = useState<'pc' | 'mobile'>('pc');
   const [heroTitle, setHeroTitle] = useState('2026년 상반기 신입사원 모집');
   const [heroSubtitle, setHeroSubtitle] = useState('함께 성장할 인재를 찾고 있습니다.');
+  const { showToast } = useNav();
 
   const color = BRAND_COLORS[activeColor].hex;
 
@@ -40,8 +42,12 @@ export default function BrandImageEditor() {
           <p className="text-xs text-[var(--foreground-muted)] mt-0.5">기업 로고 · 브랜드 컬러 · 히어로 이미지로 지원서 디자인 완성</p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm"><Eye size={14} /> 미리보기</Button>
-          <Button size="sm"><Save size={14} /> 저장</Button>
+          <Button variant="outline" size="sm" onClick={() => showToast('브랜드 미리보기 패널 열기')}>
+            <Eye size={14} /> 미리보기
+          </Button>
+          <Button size="sm" onClick={() => showToast('브랜드 이미지 설정을 저장했어요')}>
+            <Save size={14} /> 저장
+          </Button>
         </div>
       </div>
 
@@ -166,7 +172,14 @@ export default function BrandImageEditor() {
                   </div>
                 </div>
                 <div className="flex-1">
-                  <Button variant="outline" size="sm" className="w-full"><Upload size={12} /> 로고 업로드</Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full"
+                    onClick={() => showToast('로고 파일 선택 다이얼로그를 열었어요')}
+                  >
+                    <Upload size={12} /> 로고 업로드
+                  </Button>
                   <div className="text-[10px] text-[var(--foreground-muted)] mt-1">SVG · PNG · 400×400 이상</div>
                 </div>
               </div>

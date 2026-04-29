@@ -8,6 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { FadeIn } from '@/components/ui/page-transition';
+import { useNav } from '../shared/navContext';
 
 // 실시간 화상 면접 진행 화면
 const CANDIDATE = { name: '이도윤', position: '시니어 백엔드 엔지니어', company: '쿠팡', years: 7 };
@@ -48,6 +49,7 @@ export default function LiveInterviewRoom() {
   const [video, setVideo] = useState(true);
   const [showNotes, setShowNotes] = useState(false);
   const [elapsed, setElapsed] = useState(772); // 12:52
+  const { showToast, navigateTo } = useNav();
 
   useEffect(() => {
     const t = setInterval(() => setElapsed(e => e + 1), 1000);
@@ -87,7 +89,13 @@ export default function LiveInterviewRoom() {
             <Button variant="outline" size="sm" onClick={() => setShowNotes(!showNotes)}>
               <FileText size={14} /> 노트
             </Button>
-            <Button variant="outline" size="sm"><Star size={14} /> 평가 입력</Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigateTo('during', 'scorecard')}
+            >
+              <Star size={14} /> 평가 입력
+            </Button>
           </div>
         </div>
       </FadeIn>
@@ -150,14 +158,23 @@ export default function LiveInterviewRoom() {
               >
                 {video ? <Video size={14} /> : <VideoOff size={14} />}
               </button>
-              <button className="w-9 h-9 rounded-full bg-[var(--gray-3)] flex items-center justify-center text-[var(--foreground)]">
+              <button
+                onClick={() => showToast('화면 공유를 시작했어요')}
+                className="w-9 h-9 rounded-full bg-[var(--gray-3)] flex items-center justify-center text-[var(--foreground)]"
+              >
                 <ScreenShare size={14} />
               </button>
-              <button className="w-9 h-9 rounded-full bg-[var(--gray-3)] flex items-center justify-center text-[var(--foreground)]">
+              <button
+                onClick={() => setShowNotes(true)}
+                className="w-9 h-9 rounded-full bg-[var(--gray-3)] flex items-center justify-center text-[var(--foreground)]"
+              >
                 <MessageSquare size={14} />
               </button>
               <div className="h-6 w-px bg-white/20" />
-              <button className="px-3 h-9 rounded-full bg-[var(--error)] flex items-center gap-1.5 text-white text-[11px] font-medium">
+              <button
+                onClick={() => showToast('면접을 종료했어요')}
+                className="px-3 h-9 rounded-full bg-[var(--error)] flex items-center gap-1.5 text-white text-[11px] font-medium"
+              >
                 <PhoneOff size={14} />
                 종료
               </button>

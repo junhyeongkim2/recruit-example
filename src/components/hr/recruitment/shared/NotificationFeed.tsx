@@ -64,7 +64,12 @@ export default function NotificationFeed() {
           <h3 className="text-sm font-semibold">실시간 채용 알림</h3>
           <Badge variant="secondary" className="text-[10px]">{feed.length}</Badge>
         </div>
-        <button className="text-[10px] text-[var(--foreground-muted)] hover:text-[var(--foreground)]">모두 읽음</button>
+        <button
+          onClick={() => setFeed([])}
+          className="text-[10px] text-[var(--foreground-muted)] hover:text-[var(--foreground)]"
+        >
+          모두 읽음
+        </button>
       </div>
       <div className="max-h-[320px] overflow-y-auto">
         <AnimatePresence initial={false}>

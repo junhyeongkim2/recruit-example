@@ -79,7 +79,9 @@ export default function BeforeRecruitment() {
                         </p>
                       </div>
                     </div>
-                    <Button size="sm"><Sparkles size={14} /> 새 공고 시작</Button>
+                    <Button size="sm" onClick={() => setView('jd')}>
+                      <Sparkles size={14} /> 새 공고 시작
+                    </Button>
                   </CardContent>
                 </Card>
               </FadeIn>

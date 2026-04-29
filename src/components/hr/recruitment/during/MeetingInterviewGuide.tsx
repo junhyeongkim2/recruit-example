@@ -8,6 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/page-transition';
+import { useNav } from '../shared/navContext';
 
 const CONFIG_TOGGLES = [
   { key: 'intro', label: '자기소개', desc: '지원자의 자기소개 및 이력 관련 질문', enabled: true },
@@ -31,6 +32,7 @@ const APPLICANT_SUMMARY = [
 ];
 
 export default function MeetingInterviewGuide() {
+  const { showToast } = useNav();
   const [toggles, setToggles] = useState(CONFIG_TOGGLES);
   const [includeAll, setIncludeAll] = useState(true);
   const [editMode, setEditMode] = useState(false);
@@ -56,8 +58,19 @@ export default function MeetingInterviewGuide() {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm"><Save size={14} /> 면접 가이드 편집</Button>
-              <Button size="sm"><CheckCircle2 size={14} /> 면접 가이드 생성</Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setEditMode(true);
+                  showToast('편집 모드로 전환했어요');
+                }}
+              >
+                <Save size={14} /> 면접 가이드 편집
+              </Button>
+              <Button size="sm" onClick={() => showToast('AI가 면접 가이드를 생성했어요')}>
+                <CheckCircle2 size={14} /> 면접 가이드 생성
+              </Button>
             </div>
           </CardContent>
         </Card>
@@ -176,7 +189,10 @@ export default function MeetingInterviewGuide() {
                 >
                   <Edit3 size={13} />
                 </button>
-                <button className="w-7 h-7 rounded hover:bg-[var(--gray-3)] flex items-center justify-center text-[var(--foreground-muted)]">
+                <button
+                  onClick={() => showToast('면접 가이드 설정 패널 열기')}
+                  className="w-7 h-7 rounded hover:bg-[var(--gray-3)] flex items-center justify-center text-[var(--foreground-muted)]"
+                >
                   <Settings size={13} />
                 </button>
               </div>
@@ -264,8 +280,12 @@ export default function MeetingInterviewGuide() {
               </div>
             </CardContent>
             <div className="px-6 py-3 border-t border-[var(--border)] flex items-center justify-end gap-2">
-              <Button variant="outline" size="sm">대문 면접 평가</Button>
-              <Button size="sm">면접 가이드 공유 <ChevronRight size={13} /></Button>
+              <Button variant="outline" size="sm" onClick={() => showToast('대면 면접 평가 시트를 열었어요')}>
+                대문 면접 평가
+              </Button>
+              <Button size="sm" onClick={() => showToast('면접 가이드 공유 링크를 복사했어요')}>
+                면접 가이드 공유 <ChevronRight size={13} />
+              </Button>
             </div>
           </Card>
         </FadeIn>

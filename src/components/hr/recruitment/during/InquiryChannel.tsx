@@ -8,6 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/page-transition';
+import { useNav } from '../shared/navContext';
 
 const KPI = [
   { label: '전체', value: '12,630', unit: '명', sub: '25.11.05 ~ 05.02.05' },
@@ -45,6 +46,8 @@ export default function InquiryChannel() {
   const [qTab, setQTab] = useState<'applicant' | 'evaluator'>('applicant');
   const [openReply, setOpenReply] = useState<number | null>(null);
   const [autoReply, setAutoReply] = useState(false);
+  const [tableTab, setTableTab] = useState<'evaluator' | 'applicant'>('evaluator');
+  const { showToast } = useNav();
 
   return (
     <div className="flex flex-col gap-4">
@@ -135,10 +138,24 @@ export default function InquiryChannel() {
             <Card className="h-full py-0">
               <div className="px-4 py-3 border-b border-[var(--border)] flex items-center justify-between">
                 <div className="flex items-center gap-1">
-                  <button className="text-xs font-semibold px-3 py-1 rounded-md bg-[var(--gray-3)]">
+                  <button
+                    onClick={() => setTableTab('evaluator')}
+                    className={`text-xs px-3 py-1 rounded-md transition-colors ${
+                      tableTab === 'evaluator'
+                        ? 'font-semibold bg-[var(--gray-3)]'
+                        : 'text-[var(--foreground-muted)] hover:bg-[var(--gray-3)]'
+                    }`}
+                  >
                     평가자 현황
                   </button>
-                  <button className="text-xs text-[var(--foreground-muted)] px-3 py-1 rounded-md hover:bg-[var(--gray-3)]">
+                  <button
+                    onClick={() => setTableTab('applicant')}
+                    className={`text-xs px-3 py-1 rounded-md transition-colors ${
+                      tableTab === 'applicant'
+                        ? 'font-semibold bg-[var(--gray-3)]'
+                        : 'text-[var(--foreground-muted)] hover:bg-[var(--gray-3)]'
+                    }`}
+                  >
                     지원자 현황
                   </button>
                 </div>
@@ -152,7 +169,9 @@ export default function InquiryChannel() {
                       className="h-7 pl-6 pr-2 text-[11px] rounded border border-[var(--border)] bg-[var(--card)] w-[120px]"
                     />
                   </div>
-                  <Button variant="outline" size="xs"><Filter size={10} /> 전형 설정</Button>
+                  <Button variant="outline" size="xs" onClick={() => showToast('전형 설정 패널을 열었어요')}>
+                    <Filter size={10} /> 전형 설정
+                  </Button>
                 </div>
               </div>
               <div className="overflow-x-auto">

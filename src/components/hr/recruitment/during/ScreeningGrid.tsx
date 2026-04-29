@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { FadeIn } from '@/components/ui/page-transition';
 import { CANDIDATES, STAGE_LABELS } from '../mockData';
 import { useCandidateModal } from '../shared/useCandidateDetail';
+import { useNav } from '../shared/navContext';
 
 type SortKey = 'aiScore' | 'appliedAt' | 'experience' | 'name';
 
@@ -21,6 +22,7 @@ export default function ScreeningGrid() {
   const [sortDesc, setSortDesc] = useState(true);
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const { setCandidate } = useCandidateModal();
+  const { showToast } = useNav();
 
   const sorted = useMemo(() => {
     const arr = [...CANDIDATES];
@@ -82,16 +84,27 @@ export default function ScreeningGrid() {
                 <X size={10} className="text-[var(--foreground-subtle)] cursor-pointer hover:text-[var(--foreground)]" />
               </span>
             ))}
-            <Button variant="ghost" size="xs"><Save size={11} /> 필터 저장</Button>
+            <Button variant="ghost" size="xs" onClick={() => showToast('현재 필터 조합을 저장했어요')}>
+              <Save size={11} /> 필터 저장
+            </Button>
           </div>
           <div className="flex items-center gap-1.5">
-            <Button variant="outline" size="xs">
+            <Button variant="outline" size="xs" onClick={toggleAll}>
               {selected.size > 0 ? `${selected.size}명 선택됨` : '전체 선택'}
             </Button>
-            <Button variant="outline" size="xs" disabled={selected.size === 0}>
+            <Button
+              variant="outline"
+              size="xs"
+              disabled={selected.size === 0}
+              onClick={() => showToast(`${selected.size}명을 일괄 통과 처리했어요`)}
+            >
               <CheckSquare size={11} /> 일괄 통과
             </Button>
-            <Button size="xs" disabled={selected.size === 0}>
+            <Button
+              size="xs"
+              disabled={selected.size === 0}
+              onClick={() => showToast(`${selected.size}명을 다음 단계로 이동`)}
+            >
               다음 단계로
             </Button>
           </div>

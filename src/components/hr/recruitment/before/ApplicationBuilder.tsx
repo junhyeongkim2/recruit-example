@@ -8,6 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { FadeIn } from '@/components/ui/page-transition';
+import { useNav } from '../shared/navContext';
 
 const STEPS = [
   { key: 'basic', icon: User, label: '기본정보' },
@@ -50,6 +51,7 @@ export default function ApplicationBuilder() {
   });
   const [mode, setMode] = useState<'edit' | 'preview'>('edit');
   const [device, setDevice] = useState<'pc' | 'mobile'>('pc');
+  const { showToast } = useNav();
 
   const toggleField = (id: string) => {
     setBasicFields(basicFields.map(f => f.id === id ? { ...f, enabled: !f.enabled } : f));
@@ -101,9 +103,15 @@ export default function ApplicationBuilder() {
                 })}
               </div>
             )}
-            <Button variant="outline" size="sm"><Eye size={14} /> 새 지원서 양식</Button>
-            <Button variant="outline" size="sm">불러오기</Button>
-            <Button size="sm"><Save size={14} /> 저장</Button>
+            <Button variant="outline" size="sm" onClick={() => showToast('새 지원서 양식 빈 폼을 시작했어요')}>
+              <Eye size={14} /> 새 지원서 양식
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => showToast('저장된 양식 목록을 열었어요')}>
+              불러오기
+            </Button>
+            <Button size="sm" onClick={() => showToast('지원서 양식을 저장했어요')}>
+              <Save size={14} /> 저장
+            </Button>
           </div>
         </div>
       </FadeIn>
@@ -139,8 +147,12 @@ export default function ApplicationBuilder() {
                     </div>
                   </div>
                   <div className={device === 'pc' ? 'flex gap-1.5' : 'hidden'}>
-                    <Button variant="outline" size="xs"><Download size={10} /> PDF 다운로드</Button>
-                    <Button variant="outline" size="xs">저장 후 나가기</Button>
+                    <Button variant="outline" size="xs" onClick={() => showToast('PDF로 내보내기 시작')}>
+                      <Download size={10} /> PDF 다운로드
+                    </Button>
+                    <Button variant="outline" size="xs" onClick={() => showToast('변경 사항을 저장하고 나갔어요')}>
+                      저장 후 나가기
+                    </Button>
                   </div>
                 </div>
 
@@ -228,7 +240,7 @@ export default function ApplicationBuilder() {
 
                 <div className="px-6 py-3 border-t border-[var(--border)] flex items-center justify-between">
                   <Button variant="outline" size="sm" disabled>‹ 이전</Button>
-                  <Button size="sm">다음 ›</Button>
+                  <Button size="sm" onClick={() => showToast('다음 단계로 이동')}>다음 ›</Button>
                 </div>
               </motion.div>
             </div>

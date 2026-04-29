@@ -4,6 +4,7 @@ import { Search, Check } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useNav } from '../shared/navContext';
 
 // h.place 1_95 — 공고 디자인 템플릿 9종 그리드 (컬러풀)
 interface Template {
@@ -94,6 +95,7 @@ function TemplatePreview({ t, selected, onClick }: { t: Template; selected: bool
 
 export default function JobPostingTemplates() {
   const [selected, setSelected] = useState<number | null>(1);
+  const { showToast } = useNav();
 
   return (
     <div className="flex flex-col gap-4">
@@ -111,7 +113,13 @@ export default function JobPostingTemplates() {
               className="h-8 pl-7 pr-3 text-xs rounded-md border border-[var(--border)] bg-[var(--card)] w-[180px] focus:outline-none focus:border-[var(--primary)]"
             />
           </div>
-          <Button size="sm" disabled={selected === null}>템플릿 적용 →</Button>
+          <Button
+            size="sm"
+            disabled={selected === null}
+            onClick={() => showToast(`템플릿 ${selected}을(를) 적용했어요`)}
+          >
+            템플릿 적용 →
+          </Button>
         </div>
       </div>
 

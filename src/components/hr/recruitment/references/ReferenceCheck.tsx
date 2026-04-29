@@ -8,6 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/page-transition';
+import { useNav } from '../shared/navContext';
 
 // 레퍼런스 체크 (합격자 공식 검증)
 const CANDIDATES = [
@@ -48,6 +49,7 @@ const STATUS_STYLE = {
 export default function ReferenceCheck() {
   const [selected, setSelected] = useState(CANDIDATES[0]);
   const [selectedRef, setSelectedRef] = useState(selected.refs[0]);
+  const { showToast } = useNav();
 
   const completedCount = selected.refs.filter(r => r.status === 'completed').length;
   const completeness = (completedCount / selected.refs.length) * 100;
@@ -68,8 +70,12 @@ export default function ReferenceCheck() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm"><Sparkles size={14} /> AI 질문 재생성</Button>
-            <Button size="sm"><Send size={14} /> 요청 발송</Button>
+            <Button variant="outline" size="sm" onClick={() => showToast('AI가 레퍼런스 질문을 다시 생성했어요')}>
+              <Sparkles size={14} /> AI 질문 재생성
+            </Button>
+            <Button size="sm" onClick={() => showToast('레퍼런스 요청을 발송했어요')}>
+              <Send size={14} /> 요청 발송
+            </Button>
           </div>
         </div>
       </FadeIn>
@@ -200,7 +206,12 @@ export default function ReferenceCheck() {
                 })}
               </StaggerContainer>
 
-              <Button variant="outline" size="sm" className="mt-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className="mt-2"
+                onClick={() => showToast('추천인 추가 요청 폼을 열었어요')}
+              >
                 <Phone size={12} /> 추천인 추가 요청
               </Button>
             </CardContent>
@@ -267,7 +278,12 @@ export default function ReferenceCheck() {
                       <div className="text-[11px] text-[var(--foreground-muted)] leading-relaxed">{q.q}</div>
                     </div>
                   ))}
-                  <Button variant="outline" size="sm" className="mt-1">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="mt-1"
+                    onClick={() => showToast(`${selectedRef.name}님께 재요청을 발송했어요`)}
+                  >
                     <Send size={12} /> 재요청 발송
                   </Button>
                 </>

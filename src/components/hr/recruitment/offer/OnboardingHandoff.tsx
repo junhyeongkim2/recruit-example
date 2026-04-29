@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/page-transition';
 import { useEscapeKey } from '../shared/useEscapeKey';
 import { Icon3D } from '../shared/Icon3D';
+import { useNav } from '../shared/navContext';
 
 const NEW_HIRES = [
   { id: 'H-1', name: '이도윤', position: '백엔드 (시니어)', startDate: '2026-05-15', handoffReady: true, employeeNo: '2026-0042', progress: 85 },
@@ -44,6 +45,7 @@ export default function OnboardingHandoff() {
   const [selectedId, setSelectedId] = useState<string>('H-1');
   const [handoffOpen, setHandoffOpen] = useState(false);
   const [handoffStep, setHandoffStep] = useState(0);
+  const { showToast } = useNav();
 
   useEscapeKey(handoffOpen, () => setHandoffOpen(false));
 
@@ -65,7 +67,16 @@ export default function OnboardingHandoff() {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm">일괄 처리 ({NEW_HIRES.filter(h => h.handoffReady).length})</Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  const count = NEW_HIRES.filter(h => h.handoffReady).length;
+                  showToast(`핸드오프 준비 완료 ${count}명을 일괄 처리했어요`);
+                }}
+              >
+                일괄 처리 ({NEW_HIRES.filter(h => h.handoffReady).length})
+              </Button>
               <Button size="sm" onClick={() => setHandoffOpen(true)}>
                 <ArrowLeftRight size={14} /> 발령 생성
               </Button>
@@ -173,7 +184,13 @@ export default function OnboardingHandoff() {
                             <ArrowLeftRight size={11} /> 연동
                           </Button>
                         ) : (
-                          <Button variant="outline" size="xs">진행</Button>
+                          <Button
+                            variant="outline"
+                            size="xs"
+                            onClick={() => showToast(`${c.label} 진행 화면을 열었어요`)}
+                          >
+                            진행
+                          </Button>
                         )}
                         {connectNext && (
                           <div className="absolute left-[27px] top-full w-px h-1.5 bg-[var(--border)]" />
@@ -302,7 +319,13 @@ export default function OnboardingHandoff() {
                         발령관리 v3에서 승인 라인으로 전송되었습니다.
                       </div>
                     </div>
-                    <Button variant="outline" size="sm">발령관리 v3에서 열기 →</Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => showToast('발령관리 v3 새 탭으로 이동')}
+                    >
+                      발령관리 v3에서 열기 →
+                    </Button>
                   </motion.div>
                 )}
               </div>
