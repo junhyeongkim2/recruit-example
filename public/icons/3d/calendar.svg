@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="cal-top" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FDBDBE"/>
+      <stop offset="100%" stop-color="#641723"/>
+    </linearGradient>
+    <linearGradient id="cal-body" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF"/>
+      <stop offset="100%" stop-color="#E0E1E6"/>
+    </linearGradient>
+    <linearGradient id="cal-ring" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#CDCED6"/>
+      <stop offset="100%" stop-color="#60646C"/>
+    </linearGradient>
+    <radialGradient id="cal-dot" cx="35%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#FFF"/>
+      <stop offset="60%" stop-color="#5EB1EF"/>
+      <stop offset="100%" stop-color="#113264"/>
+    </radialGradient>
+    <filter id="cal-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="0" dy="4"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.32"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <g filter="url(#cal-shadow)">
+    <rect x="14" y="22" width="100" height="96" rx="14" fill="url(#cal-body)"/>
+    <path d="M 14 36 Q 14 22, 28 22 L 100 22 Q 114 22, 114 36 L 114 46 L 14 46 Z" fill="url(#cal-top)"/>
+    <rect x="34" y="12" width="8" height="22" rx="4" fill="url(#cal-ring)"/>
+    <rect x="86" y="12" width="8" height="22" rx="4" fill="url(#cal-ring)"/>
+    <rect x="22" y="28" width="20" height="4" rx="2" fill="#FFF" opacity="0.4"/>
+    <circle cx="36" cy="64" r="5" fill="#CDCED6"/>
+    <circle cx="54" cy="64" r="5" fill="#CDCED6"/>
+    <circle cx="72" cy="64" r="5" fill="#CDCED6"/>
+    <circle cx="90" cy="64" r="5" fill="#CDCED6"/>
+    <circle cx="36" cy="82" r="5" fill="#CDCED6"/>
+    <circle cx="54" cy="82" r="9" fill="url(#cal-dot)"/>
+    <ellipse cx="51" cy="79" rx="2" ry="1.2" fill="#FFF" opacity="0.8"/>
+    <circle cx="72" cy="82" r="5" fill="#CDCED6"/>
+    <circle cx="90" cy="82" r="5" fill="#CDCED6"/>
+    <circle cx="36" cy="100" r="5" fill="#CDCED6"/>
+    <circle cx="54" cy="100" r="5" fill="#CDCED6"/>
+    <circle cx="72" cy="100" r="5" fill="#CDCED6"/>
+  </g>
+</svg>

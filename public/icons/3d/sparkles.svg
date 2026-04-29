@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <radialGradient id="sp-main" cx="38%" cy="32%" r="78%">
+      <stop offset="0%" stop-color="#FFFEF0"/>
+      <stop offset="25%" stop-color="#FFF8BB"/>
+      <stop offset="55%" stop-color="#FFC53D"/>
+      <stop offset="85%" stop-color="#9E6C00"/>
+      <stop offset="100%" stop-color="#4A3000"/>
+    </radialGradient>
+    <radialGradient id="sp-sm" cx="35%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#FFFEF0"/>
+      <stop offset="40%" stop-color="#F9E68C"/>
+      <stop offset="100%" stop-color="#9E6C00"/>
+    </radialGradient>
+    <radialGradient id="sp-hi" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#FFF" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FFF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="sp-shadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="0" dy="4"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.32"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <g filter="url(#sp-shadow)">
+    <path d="M 102 22 C 102 30, 104 36, 112 38 C 104 40, 102 46, 102 54 C 102 46, 100 40, 92 38 C 100 36, 102 30, 102 22 Z" fill="url(#sp-sm)"/>
+    <ellipse cx="98" cy="32" rx="3" ry="1.8" fill="#FFF" opacity="0.7" transform="rotate(-25 98 32)"/>
+  </g>
+  <g filter="url(#sp-shadow)">
+    <path d="M 26 82 C 26 92, 28 100, 40 102 C 28 104, 26 112, 26 122 C 26 112, 24 104, 12 102 C 24 100, 26 92, 26 82 Z" fill="url(#sp-sm)"/>
+    <ellipse cx="21" cy="93" rx="3.5" ry="2" fill="#FFF" opacity="0.65" transform="rotate(-25 21 93)"/>
+  </g>
+  <g filter="url(#sp-shadow)">
+    <path d="M 64 12 C 64 36, 70 58, 114 64 C 70 70, 64 92, 64 116 C 64 92, 58 70, 14 64 C 58 58, 64 36, 64 12 Z" fill="url(#sp-main)"/>
+    <ellipse cx="52" cy="42" rx="14" ry="6" fill="url(#sp-hi)" transform="rotate(-32 52 42)"/>
+    <circle cx="46" cy="38" r="3" fill="#FFF" opacity="0.6"/>
+  </g>
+</svg>
